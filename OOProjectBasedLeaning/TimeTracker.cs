@@ -119,9 +119,15 @@ namespace OOProjectBasedLeaning
 
         public bool IsAtWork(int employeeId)
         {
-
-            return timestamp4PunchIn[DateTime.Today].ContainsKey(employeeId)
-                && !timestamp4PunchOut[DateTime.Today].ContainsKey(employeeId);
+            try
+            {
+                return timestamp4PunchIn[DateTime.Today].ContainsKey(employeeId)
+                    && !timestamp4PunchOut[DateTime.Today].ContainsKey(employeeId);
+            }
+            catch
+            {
+                return false;
+            }
 
         }
 

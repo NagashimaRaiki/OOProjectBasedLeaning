@@ -28,7 +28,8 @@ namespace OOProjectBasedLeaning
             Controls.Add(new TimeTrackerPanel(tt)
             {
                 Location = new Point(0,20 + Controls.Count * 30),
-                Width = 800,
+                Width = 600,
+                Height = 300,
                 BackColor = Color.Blue,
             });
             this.Controls.Add(new Label { Text = "タイムレコーダー", Location = new System.Drawing.Point(0, 0)});
