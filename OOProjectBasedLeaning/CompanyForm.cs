@@ -11,7 +11,7 @@ using System.Windows.Forms;
 namespace OOProjectBasedLeaning
 {
 
-    public partial class CompanyForm : Form
+    public partial class CompanyForm : DragDropForm
     {
 
         private Company company = NullCompany.Instance;
@@ -28,6 +28,27 @@ namespace OOProjectBasedLeaning
 
         }
 
+        protected override void OnFormDragEnterSerializable(DragEventArgs dragEventArgs)
+        {
+
+            dragEventArgs.Effect = DragDropEffects.Move;
+
+        }
+
+        protected override void OnFormDragDropSerializable(object? serializableObject, DragEventArgs dragEventArgs)
+        {
+
+            if (serializableObject is DragDropPanel)
+            {
+
+                (serializableObject as DragDropPanel).AddDragDropForm(this, PointToClient(new Point(dragEventArgs.X, dragEventArgs.Y)));
+
+            }
+
+        }
+
     }
+
+
 
 }

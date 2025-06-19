@@ -11,7 +11,7 @@ using System.Windows.Forms;
 namespace OOProjectBasedLeaning
 {
 
-    public partial class EmployeeCreatorForm : Form
+    public partial class EmployeeCreatorForm : DragDropForm
     {
 
         private int employeeId = 10000;
@@ -30,6 +30,7 @@ namespace OOProjectBasedLeaning
             {
                 Location = new Point(10, 10 + Controls.Count * 30),
                 Width = 300,
+                BackColor = Color.Red
             });
 
         }
@@ -40,6 +41,25 @@ namespace OOProjectBasedLeaning
             employeeId++;
 
             return new EmployeeModel(employeeId, "Employee" + employeeId);
+
+        }
+
+        protected override void OnFormDragEnterSerializable(DragEventArgs dragEventArgs)
+        {
+
+            dragEventArgs.Effect = DragDropEffects.Move;
+
+        }
+
+        protected override void OnFormDragDropSerializable(object? serializableObject, DragEventArgs dragEventArgs)
+        {
+
+            if (serializableObject is DragDropPanel)
+            {
+
+                (serializableObject as DragDropPanel).AddDragDropForm(this, PointToClient(new Point(dragEventArgs.X, dragEventArgs.Y)));
+
+            }
 
         }
 
