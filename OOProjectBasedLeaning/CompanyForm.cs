@@ -24,7 +24,13 @@ namespace OOProjectBasedLeaning
             company = new CompanyModel("MyCompany");
 
             // TODO: タイムレコーダーのパネルを設置する
-            new TimeTrackerModel(company);
+            TimeTracker tt = new TimeTrackerModel(company);
+            Controls.Add(new TimeTrackerPanel(tt)
+            {
+                Location = new Point(0,0 + Controls.Count * 30),
+                Width = 800,
+                BackColor = Color.Blue,
+            });
 
         }
 
