@@ -27,11 +27,11 @@ namespace OOProjectBasedLeaning
             TimeTracker tt = new TimeTrackerModel(company);
             Controls.Add(new TimeTrackerPanel(tt)
             {
-                Location = new Point(0,0 + Controls.Count * 30),
+                Location = new Point(0,20 + Controls.Count * 30),
                 Width = 800,
                 BackColor = Color.Blue,
             });
-
+            this.Controls.Add(new Label { Text = "タイムレコーダー", Location = new System.Drawing.Point(0, 0)});
         }
 
         protected override void OnFormDragEnterSerializable(DragEventArgs dragEventArgs)
