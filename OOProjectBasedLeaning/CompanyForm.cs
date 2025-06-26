@@ -21,11 +21,12 @@ namespace OOProjectBasedLeaning
         {
 
             InitializeComponent();
-
+            //CompanyModelの作成
             company = new CompanyModel("MyCompany");
 
-            // TODO: タイムレコーダーのパネルを設置する
+            //TimeTrackerの作成
             TimeTracker tt = new TimeTrackerModel(company);
+            //ControlsにTimeTrackerPanelの追加
             Controls.Add(new TimeTrackerPanel(tt)
             {
                 Location = new Point(480,20 + Controls.Count * 30),
@@ -34,6 +35,7 @@ namespace OOProjectBasedLeaning
                 BackColor = Color.Blue,
             });
 
+            //Labelの作成
             employeeNamesLabel = new Label
             {
 
@@ -42,6 +44,7 @@ namespace OOProjectBasedLeaning
                 Font = new Font("Arial", 15, FontStyle.Regular),
 
             };
+            //ControlsにLabelを追加
             Controls.Add(employeeNamesLabel);
         }
 
