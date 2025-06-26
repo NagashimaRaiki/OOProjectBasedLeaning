@@ -7,63 +7,26 @@ using System.Threading.Tasks;
 namespace OOProjectBasedLeaning
 {
 
-    public class TimeTrackerPanel : Panel, Observer
+    public class TimeTrackerPanel : Panel
     {
 
-            private TimeTracker timeTracker = NullTimeTracker.Instance;
-
-            public TimeTrackerPanel()
-            {
-
-                InitializeComponent();
-
-            }
-
-
+        private TimeTracker timeTracker = NullTimeTracker.Instance;
+        
         public TimeTrackerPanel(TimeTracker timeTracker)
-            {
-    
-                this.timeTracker = timeTracker;
-    
-                InitializeComponent();
-    
-            }
-    
-            private void InitializeComponent()
-            {
-
-            Label titleLabel = new Label
-            {
-                Text = "Time Tracker",
-                Font = new Font("Arial", 16, FontStyle.Bold),
-                Dock = DockStyle.Top,
-                TextAlign = ContentAlignment.MiddleCenter
-            };
-            Controls.Add(titleLabel);
-
-            TouchableLabel touchableLabel = new RecordModeTouchableLabel();
-            touchableLabel.AddObserver(this);
-            Controls.Add(touchableLabel);
-                
-            }
-
-        // Methods to handle user interactions like PunchIn, PunchOut, etc.
-        public void Update(object sender)
         {
-            if (sender is RecordModeTouchableLabel)
-            {
-                TouchableLabel touchableLabel = sender as TouchableLabel;
-                if(touchableLabel.Text == "退　勤")
-                {
 
-                    //timeTracker.PunchIn(10001);
-                }
-                else
-                {
+            this.timeTracker = timeTracker;
 
-                    //timeTracker.PunchOut(10001);
-                }
-            }
+            InitializeComponent();
+
+        }
+
+        private void InitializeComponent()
+        {
+
+            RecordModeTouchableLabel touchableLabel = new RecordModeTouchableLabel(timeTracker);
+            Controls.Add(touchableLabel);
+
         }
 
     }

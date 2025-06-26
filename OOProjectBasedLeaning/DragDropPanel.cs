@@ -84,6 +84,13 @@ namespace OOProjectBasedLeaning
 
         }
 
+        protected Form GetForm()
+        {
+
+            return form;
+
+        }
+
         protected DragDropPanel MoveTo(Point point)
         {
 
