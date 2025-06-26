@@ -55,13 +55,11 @@ namespace OOProjectBasedLeaning
                 TouchableLabel touchableLabel = sender as TouchableLabel;
                 if(touchableLabel.Text == "退　勤")
                 {
-                    MessageBox.Show("a", "a");//テスト用
 
                     //timeTracker.PunchIn(10001);
                 }
                 else
                 {
-                    MessageBox.Show("b", "b");//テスト用
 
                     //timeTracker.PunchOut(10001);
                 }

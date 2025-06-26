@@ -15,6 +15,7 @@ namespace OOProjectBasedLeaning
     {
 
         private Company company = NullCompany.Instance;
+        private Label employeeNamesLabel;
 
         public CompanyForm()
         {
@@ -27,12 +28,21 @@ namespace OOProjectBasedLeaning
             TimeTracker tt = new TimeTrackerModel(company);
             Controls.Add(new TimeTrackerPanel(tt)
             {
-                Location = new Point(0,20 + Controls.Count * 30),
-                Width = 600,
-                Height = 300,
+                Location = new Point(480,20 + Controls.Count * 30),
+                Width = 300,
+                Height = 200,
                 BackColor = Color.Blue,
             });
-            this.Controls.Add(new Label { Text = "タイムレコーダー", Location = new System.Drawing.Point(0, 0)});
+
+            employeeNamesLabel = new Label
+            {
+
+                Location = new Point(20, 20),
+                AutoSize = true,
+                Font = new Font("Arial", 15, FontStyle.Regular),
+
+            };
+            Controls.Add(employeeNamesLabel);
         }
 
         protected override void OnFormDragEnterSerializable(DragEventArgs dragEventArgs)
