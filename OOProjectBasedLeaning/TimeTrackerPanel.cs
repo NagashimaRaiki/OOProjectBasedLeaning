@@ -9,6 +9,7 @@ namespace OOProjectBasedLeaning
 
     public class TimeTrackerPanel : Panel, Observer
     {
+        RecordModeTouchableLabel touchableLabel = new RecordModeTouchableLabel();
         private TimeTracker timeTracker = NullTimeTracker.Instance;
 
         public TimeTrackerPanel()
@@ -44,7 +45,6 @@ namespace OOProjectBasedLeaning
             };
             Controls.Add(titleLabel);
 
-            TouchableLabel touchableLabel = new RecordModeTouchableLabel();
             touchableLabel.AddObserver(this);
             Controls.Add(touchableLabel);
 
@@ -53,8 +53,7 @@ namespace OOProjectBasedLeaning
         // Methods to handle user interactions like PunchIn, PunchOut, etc.
         public void Update(object sender)
         {
-            TouchableLabel touchableLabel = sender as TouchableLabel;
-            if (touchableLabel.Text == "退　勤")
+            if (touchableLabel.IsClockOutMode())
             {
                 MessageBox.Show("a", "a");//テスト用
 
@@ -62,7 +61,7 @@ namespace OOProjectBasedLeaning
             }
             else
             {
-                MessageBox.Show("b", "b");//テスト用Add commentMore actions
+                MessageBox.Show("b", "b");//テスト用
 
                 //timeTracker.PunchOut(10001);
             }
