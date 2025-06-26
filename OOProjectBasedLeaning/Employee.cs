@@ -1,4 +1,4 @@
-﻿ using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,55 +15,26 @@ namespace OOProjectBasedLeaning
 
         int Id { get; }
 
-        void AddCompany(Company company);
+        Employee AddCompany(Company company);
 
-        void RemoveCompany();
+        Employee RemoveCompany();
 
-        void AddHome(Home home);
-
-        void RemoveHome();
-
-        Employee Go2Company();
-
-        Employee Go2Home();
-
-        /// <summary>
-        /// 所属している会社を返します。
-        /// </summary>
-        /// <returns>所属している会社</returns>
         Company In();
 
-        /// <summary>
-        /// 出勤します。
-        /// </summary>
         void ClockIn();
 
-        /// <summary>
-        /// 退勤します。
-        /// </summary>
         void ClockOut();
 
-        /// <summary>
-        /// 勤務中かどうかを返します。
-        /// </summary>
-        /// <returns>勤務中の場合 true</returns>
         bool IsAtWork();
-
-        /// <summary>
-        /// 帰宅中かどうかを返します。
-        /// </summary>
-        /// <returns>帰宅中の場合 true</returns>
-        bool IsAtHome();
 
     }
 
-    public class EmployeeModel : NotifierModelEntity, Employee
+    public class EmployeeModel : ModelEntity, Employee
     {
 
         private int id;
+
         private Company company = NullCompany.Instance;
-        private Home home = NullHome.Instance;
-        private Place place = NullPlace.Instance;
 
         public EmployeeModel() : this(Employee.NEW)
         {
@@ -111,55 +82,21 @@ namespace OOProjectBasedLeaning
 
         public int Id { get { return id; } }
 
-        public void AddCompany(Company company)
+        public Employee AddCompany(Company company)
         {
 
             this.company = company.AddEmployee(this);
-
-        }
-
-        public void RemoveCompany()
-        {
-
-            company.RemoveEmployee(this);
-
-            company = NullCompany.Instance;
-
-        }
-
-        public void AddHome(Home home)
-        {
-
-            this.home = home.AddEmployee(this);
-
-        }
-
-        public void RemoveHome()
-        {
-
-            home.RemoveEmployee(this);
-
-            home = NullHome.Instance;
-
-        }
-
-        public Employee Go2Company()
-        {
-
-            place = company;
-
-            Notify();
 
             return this;
 
         }
 
-        public Employee Go2Home()
+        public Employee RemoveCompany()
         {
 
-            place = home;
+            company.RemoveEmployee(this);
 
-            Notify();
+            company = NullCompany.Instance;
 
             return this;
 
@@ -177,8 +114,6 @@ namespace OOProjectBasedLeaning
 
             company.ClockIn(this);
 
-            Notify();
-
         }
 
         public void ClockOut()
@@ -186,21 +121,12 @@ namespace OOProjectBasedLeaning
 
             company.ClockOut(this);
 
-            Notify();
-
         }
 
         public bool IsAtWork()
         {
 
-            return place is Company && company.IsAtWork(this);
-
-        }
-
-        public bool IsAtHome()
-        {
-
-            return place is Home;
+            return company.IsAtWork(this);
 
         }
 
@@ -256,34 +182,14 @@ namespace OOProjectBasedLeaning
 
         }
 
-        public void AddCompany(Company company)
-        {
-
-        }
-
-        public void RemoveCompany()
-        {
-
-        }
-
-        public void AddHome(Home home)
-        {
-
-        }
-
-        public void RemoveHome()
-        {
-
-        }
-
-        public Employee Go2Company()
+        public Employee AddCompany(Company company)
         {
 
             return this;
 
         }
 
-        public Employee Go2Home()
+        public Employee RemoveCompany()
         {
 
             return this;
@@ -308,13 +214,6 @@ namespace OOProjectBasedLeaning
         }
 
         public bool IsAtWork()
-        {
-
-            return false;
-
-        }
-
-        public bool IsAtHome()
         {
 
             return false;

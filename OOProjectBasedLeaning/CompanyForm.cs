@@ -63,24 +63,6 @@ namespace OOProjectBasedLeaning
             }
 
         }
-
-        private void UpdateDisplay()
-        {
-
-            StringBuilder employeeNames = new StringBuilder();
-            company.Employees().ForEach(employee =>
-            {
-
-                employeeNames.Append(employee.Name);
-                employeeNames.Append("\n");
-
-            });
-
-            employeeNamesLabel.Text = employeeNames.ToString();
-
-        }
     }
-
-
 
 }

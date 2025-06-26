@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace OOProjectBasedLeaning
 {
 
-    public interface Home : Model, Place
+    public interface Home : Model
     {
 
         Home AddEmployee(Employee employee);

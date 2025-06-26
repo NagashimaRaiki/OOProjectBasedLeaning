@@ -8,8 +8,15 @@ using System.Xml.Linq;
 namespace OOProjectBasedLeaning
 {
 
-    public interface Company : Model, Place
+    public interface Company : Model
     {
+
+        /// <summary>
+        /// タイムトラッカーを追加する。
+        /// </summary>
+        /// <param name="timeTracker">タイムトラッカー</param>
+        /// <returns>会社</returns>
+        Company AddTimeTracker(TimeTracker timeTracker);
 
         /// <summary>
         /// IDで従業員を検索する。
@@ -17,8 +24,6 @@ namespace OOProjectBasedLeaning
         /// <param name="id">従業員のID</param>
         /// <returns>従業員</returns>
         Employee FindEmployeeById(int id);
-
-        List<Employee> Employees();
 
         /// <summary>
         /// Adds a new employee to the company.
@@ -34,13 +39,6 @@ namespace OOProjectBasedLeaning
         /// <param name="employee">The employee to be removed. Cannot be null.</param>
         /// <returns>The updated <see cref="Company"/> instance after the employee has been removed.</returns>
         Company RemoveEmployee(Employee employee);
-
-        /// <summary>
-        /// タイムトラッカーを追加する。
-        /// </summary>
-        /// <param name="timeTracker">タイムトラッカー</param>
-        /// <returns>会社</returns>
-        Company AddTimeTracker(TimeTracker timeTracker);
 
         /// <summary>
         /// Records the clock-in time for the specified employee.
@@ -70,16 +68,16 @@ namespace OOProjectBasedLeaning
     {
 
         /// <summary>
-        /// <Employee.Id, Employee>
-        /// </summary>
-        private Dictionary<int, Employee> employees = new Dictionary<int, Employee>();
-        /// <summary>
         /// Tracks the elapsed time for operations or processes.
         /// </summary>
         /// <remarks>This field is initialized to a default instance of <see cref="NullTimeTracker"/>,
         /// which represents a no-op implementation of the <see cref="TimeTracker"/> class. Use this field to measure
         /// time intervals or replace it with a custom implementation for more detailed tracking.</remarks>
         private TimeTracker timeTracker = NullTimeTracker.Instance;
+        /// <summary>
+        /// <Employee.Id, Employee>
+        /// </summary>
+        private Dictionary<int, Employee> employees = new Dictionary<int, Employee>();
 
         public CompanyModel() : this(string.Empty)
         {
@@ -89,15 +87,21 @@ namespace OOProjectBasedLeaning
         public CompanyModel(string name)
         {
 
-            this.Name = name;
-
-            // TODO: ここで従業員のリストを取得する処理を実装する
             AcquireEmployees().ForEach(employee =>
             {
 
                 employee.AddCompany(this);
 
             });
+
+        }
+
+        public Company AddTimeTracker(TimeTracker timeTracker)
+        {
+
+            this.timeTracker = timeTracker;
+            
+            return this;
 
         }
 
@@ -109,22 +113,10 @@ namespace OOProjectBasedLeaning
 
         }
 
-        public List<Employee> Employees()
-        {
-
-            return employees.Values.ToList();
-
-        }
-
         public Company AddEmployee(Employee employee)
         {
 
-            if (!employees.ContainsKey(employee.Id))
-            {
-
-                employees.Add(employee.Id, employee);
-
-            }
+            employees.Add(employee.Id, employee);
 
             return this;
 
@@ -162,48 +154,17 @@ namespace OOProjectBasedLeaning
 
         }
 
-        public Company AddTimeTracker(TimeTracker timeTracker)
-        {
-
-            this.timeTracker = timeTracker;
-
-            return this;
-
-        }
-
         public void ClockIn(Employee employee)
         {
 
-            if (timeTracker.IsClockInMode())
-            {
-
-                timeTracker.PunchIn(FindEmployeeById(employee.Id).Id);
-
-            }
-            else
-            {
-
-                throw new InvalidOperationException("「出勤」モードに切り替えてください。");
-
-            }
+            timeTracker.PunchIn(FindEmployeeById(employee.Id).Id);
 
         }
 
         public void ClockOut(Employee employee)
         {
 
-            if (timeTracker.IsClockOutMode())
-            {
-
-                timeTracker.PunchOut(FindEmployeeById(employee.Id).Id);
-
-            }
-            else
-            {
-
-                throw new InvalidOperationException("「退勤」モードに切り替えてください。");
-
-            }
+            timeTracker.PunchOut(FindEmployeeById(employee.Id).Id);
 
         }
 
@@ -220,7 +181,6 @@ namespace OOProjectBasedLeaning
     {
 
         private static Company instance = new NullCompany();
-        private static List<Employee> list = new List<Employee>(0);
 
         private NullCompany()
         {
@@ -238,17 +198,17 @@ namespace OOProjectBasedLeaning
 
         }
 
+        public Company AddTimeTracker(TimeTracker timeTracker)
+        {
+
+            return this;
+
+        }
+
         public Employee FindEmployeeById(int id)
         {
 
             return NullEmployee.Instance;
-
-        }
-
-        public List<Employee> Employees()
-        {
-
-            return list;
 
         }
 
@@ -260,13 +220,6 @@ namespace OOProjectBasedLeaning
         }
 
         public Company RemoveEmployee(Employee employee)
-        {
-
-            return this;
-
-        }
-
-        public Company AddTimeTracker(TimeTracker timeTracker)
         {
 
             return this;
