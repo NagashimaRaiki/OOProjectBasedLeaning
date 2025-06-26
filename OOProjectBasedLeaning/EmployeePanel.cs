@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace OOProjectBasedLeaning
 {
 
-    public class EmployeePanel : Panel
+    public class EmployeePanel : DragDropPanel
     {
 
         private Employee employee;
@@ -42,7 +42,9 @@ namespace OOProjectBasedLeaning
             Controls.Add(guestNameTextBox);
 
         }
-
+        protected override void OnPanelMouseDown()
+        {
+            DoDragDropMove();
+        }
     }
-
 }
