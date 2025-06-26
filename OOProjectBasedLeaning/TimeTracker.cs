@@ -4,17 +4,12 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace OOProjectBasedLeaning
 {
 
     public interface TimeTracker
     {
-
-        void ChangeClockInMode();
-
-        void ChangeClockOutMode();
 
         /// <summary>
         /// 出勤の時間を記録する。
@@ -30,10 +25,6 @@ namespace OOProjectBasedLeaning
         /// <exception cref="InvalidOperationException">従業員が仕事中でない場合</exception>""
         void PunchOut(int employeeId);
 
-        bool IsClockInMode();
-
-        bool IsClockOutMode();
-
         /// <summary>
         /// 仕事中かどうかを判定する。
         /// </summary>
@@ -43,7 +34,7 @@ namespace OOProjectBasedLeaning
 
     }
 
-    public class TimeTrackerModel : NotifierModelEntity, TimeTracker
+    public class TimeTrackerModel : TimeTracker
     {
 
         /// <summary>
@@ -56,43 +47,28 @@ namespace OOProjectBasedLeaning
         /// <summary>
         /// <DateTime.Today, <Employee.Id, DateTime.Now>>
         /// </summary>
-        private Dictionary<DateTime, List<Dictionary<int, DateTime>>> timestamp4PunchIn = new Dictionary<DateTime, List<Dictionary<int, DateTime>>>();
+        private Dictionary<DateTime, Dictionary<int, DateTime>> timestamp4PunchIn = new Dictionary<DateTime, Dictionary<int, DateTime>>();
         /// <summary>
         /// <DateTime.Today, <Employee.Id, DateTime.Now>>
         /// </summary>
-        private Dictionary<DateTime, List<Dictionary<int, DateTime>>> timestamp4PunchOut = new Dictionary<DateTime, List<Dictionary<int, DateTime>>>();
+        private Dictionary<DateTime, Dictionary<int, DateTime>> timestamp4PunchOut = new Dictionary<DateTime, Dictionary<int, DateTime>>();
         /// <summary>
-        /// Represents the current recording mode for the system.
+        /// Represents the current operational mode of the system.
         /// </summary>
-        /// <remarks>The recording mode determines the operational state, such as whether the system is in
-        /// "Clock In" mode or another mode. This field is initialized to <see cref="TimeRecordMode.ClockIn"/> by
-        /// default.</remarks>
-        private TimeRecordMode mode = TimeRecordMode.ClockIn;
+        /// <remarks>The mode determines the behavior of the system, such as whether it operates in "Punch
+        /// In" mode or other modes.</remarks>
+        private Mode mode = Mode.PunchIn;
+
+        private enum Mode
+        {
+            PunchIn, // default
+            PunchOut
+        };
 
         public TimeTrackerModel(Company company)
         {
 
             this.company = company.AddTimeTracker(this);
-
-        }
-
-        public void ChangeClockInMode()
-        {
-
-            mode = TimeRecordMode.ClockIn;
-
-            // Notify observers that the mode has changed
-            Notify();
-
-        }
-
-        public void ChangeClockOutMode()
-        {
-
-            mode = TimeRecordMode.ClockOut;
-
-            // Notify observers that the mode has changed
-            Notify();
 
         }
 
@@ -107,26 +83,7 @@ namespace OOProjectBasedLeaning
 
             }
 
-            DateTime today = DateTime.Today;
-
-            if (!timestamp4PunchIn.ContainsKey(today))
-            {
-
-                // 今日の出勤打刻がない場合は、新規に作成する
-                timestamp4PunchIn.Add(today, new List<Dictionary<int, DateTime>>());
-
-            }
-
-            if (AcquirePunchedInTimestamp(today, employeeId) is NullTimestamp)
-            {
-
-                // 今日の出勤打刻に従業員の打刻を追加する
-                timestamp4PunchIn[today].Add(CreateTimestamp(employeeId));
-
-            }
-
-            // Notify observers that the mode has changed
-            Notify();
+            timestamp4PunchIn.Add(DateTime.Today, CreateTimestamp(employeeId));
 
         }
 
@@ -141,26 +98,7 @@ namespace OOProjectBasedLeaning
 
             }
 
-            DateTime today = DateTime.Today;
-
-            if (!timestamp4PunchOut.ContainsKey(today))
-            {
-
-                // 今日の退勤打刻がない場合は、新規に作成する
-                timestamp4PunchOut.Add(today, new List<Dictionary<int, DateTime>>());
-
-            }
-
-            if (AcquirePunchedOutTimestamp(today, employeeId) is NullTimestamp)
-            {
-
-                // 今日の退勤打刻に従業員の打刻を追加する
-                timestamp4PunchOut[today].Add(CreateTimestamp(employeeId));
-
-            }
-
-            // Notify observers that the mode has changed
-            Notify();
+            timestamp4PunchOut.Add(DateTime.Today, CreateTimestamp(employeeId));
 
         }
 
@@ -179,111 +117,11 @@ namespace OOProjectBasedLeaning
 
         }
 
-        public bool IsClockInMode()
-        {
-
-            return mode is TimeRecordMode.ClockIn;
-
-        }
-
-        public bool IsClockOutMode()
-        {
-
-            return mode is TimeRecordMode.ClockOut;
-
-        }
-
         public bool IsAtWork(int employeeId)
         {
 
-            DateTime today = DateTime.Today;
-
-            return AcquirePunchedInTimestamp(today, employeeId) is not NullTimestamp
-                && AcquirePunchedOutTimestamp(today, employeeId) is NullTimestamp;
-
-        }
-
-        /// <summary>
-        /// 指定された日付と従業員IDに基づいて、打刻された出勤時間を取得します。
-        /// </summary>
-        /// <param name="today">日付</param>
-        /// <param name="employeeId">従業員ID</param>
-        /// <returns>打刻された出勤時間 ※取得できなかった場合 NullTimestamp</returns>
-        private Dictionary<int, DateTime> AcquirePunchedInTimestamp(DateTime today, int employeeId)
-        {
-
-            if (timestamp4PunchIn.ContainsKey(today))
-            {
-
-                return AcquirePunchedTimestamp(timestamp4PunchIn[today], employeeId);
-
-            }
-
-            // 従業員の打刻がない場合は、NullTimestamp.Instance の打刻を返す
-            return NullTimestamp.Instance;
-
-        }
-
-        /// <summary>
-        /// 指定された日付と従業員IDに基づいて、打刻された退勤時間を取得します。
-        /// </summary>
-        /// <param name="today">日付</param>
-        /// <param name="employeeId">従業員ID</param>
-        /// <returns>打刻された退勤時間 ※取得できなかった場合 NullTimestamp</returns>
-        private Dictionary<int, DateTime> AcquirePunchedOutTimestamp(DateTime today, int employeeId)
-        {
-
-            if (timestamp4PunchOut.ContainsKey(today))
-            {
-
-                return AcquirePunchedTimestamp(timestamp4PunchOut[today], employeeId);
-
-            }
-
-            // 従業員の打刻がない場合は、NullTimestamp.Instance の打刻を返す
-            return NullTimestamp.Instance;
-
-        }
-
-        /// <summary>
-        /// 指定された日付と従業員IDに基づいて、打刻された時間を取得します。
-        /// </summary>
-        /// <param name="today">日付</param>
-        /// <param name="employeeId">従業員ID</param>
-        /// <returns>打刻された時間 ※取得できなかった場合 NullTimestamp</returns>
-        private Dictionary<int, DateTime> AcquirePunchedTimestamp(List<Dictionary<int, DateTime>> list, int employeeId)
-        {
-
-            foreach (Dictionary<int, DateTime> timestamp in list)
-            {
-
-                if (timestamp.ContainsKey(employeeId))
-                {
-
-                    return timestamp;
-
-                }
-
-            }
-
-            // 従業員の打刻がない場合は、NullTimestamp.Instance の打刻を返す
-            return NullTimestamp.Instance;
-
-        }
-
-        private class NullTimestamp : Dictionary<int, DateTime>, NullObject
-        {
-
-            private static Dictionary<int, DateTime> instance = new NullTimestamp();
-
-            private NullTimestamp() : base(1)
-            {
-
-                Add(NullEmployee.Instance.Id, DateTime.MinValue);
-
-            }
-
-            public static Dictionary<int, DateTime> Instance { get { return instance; } }
+            return timestamp4PunchIn[DateTime.Today].ContainsKey(employeeId)
+                && !timestamp4PunchOut[DateTime.Today].ContainsKey(employeeId);
 
         }
 
@@ -301,16 +139,6 @@ namespace OOProjectBasedLeaning
 
         public static TimeTracker Instance { get { return instance; } }
 
-        public void ChangeClockInMode()
-        {
-
-        }
-
-        public void ChangeClockOutMode()
-        {
-
-        }
-
         public void PunchIn(int employeeId)
         {
 
@@ -318,20 +146,6 @@ namespace OOProjectBasedLeaning
 
         public void PunchOut(int employeeId)
         {
-
-        }
-
-        public bool IsClockInMode()
-        {
-
-            return false;
-
-        }
-
-        public bool IsClockOutMode()
-        {
-
-            return false;
 
         }
 
