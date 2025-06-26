@@ -41,11 +41,13 @@ namespace OOProjectBasedLeaning
 
                 Location = new Point(20, 20),
                 AutoSize = true,
-                Font = new Font("Arial", 15, FontStyle.Regular),
+                Font = new Font("Arial", 12, FontStyle.Regular),
 
             };
             //ControlsにLabelを追加
             Controls.Add(employeeNamesLabel);
+
+            UpdateDisplay();
         }
 
         protected override void OnFormDragEnterSerializable(DragEventArgs dragEventArgs)
@@ -66,6 +68,23 @@ namespace OOProjectBasedLeaning
             }
 
         }
+
+        private void UpdateDisplay()
+        {
+
+            StringBuilder employeeNames = new StringBuilder();
+            company.Employees().ForEach(employee =>
+            {
+
+                employeeNames.Append(employee.Name);
+                employeeNames.Append("\n");
+
+            });
+
+            employeeNamesLabel.Text = employeeNames.ToString();
+
+        }
+
     }
 
 }

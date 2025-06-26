@@ -44,6 +44,8 @@ namespace OOProjectBasedLeaning
         /// Records the clock-in time for the specified employee.
         /// </summary>
         /// <param name="employee">The employee whose clock-in time is being recorded. Cannot be null.</param>
+
+        public List<Employee> Employees();
         void ClockIn(Employee employee);
 
         /// <summary>
@@ -133,6 +135,14 @@ namespace OOProjectBasedLeaning
             }
 
             return this;
+
+        }
+
+        //Company中の従業員を一括取得
+        public List<Employee> Employees()
+        {
+
+            return employees.Values.ToList();
 
         }
 
@@ -243,6 +253,10 @@ namespace OOProjectBasedLeaning
 
         }
 
+        public List<Employee> Employees()
+        {
+            throw new NotImplementedException();
+        }
     }
 
 }
