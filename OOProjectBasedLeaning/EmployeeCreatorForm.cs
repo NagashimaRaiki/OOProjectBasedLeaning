@@ -30,7 +30,8 @@ namespace OOProjectBasedLeaning
             {
                 Location = new Point(10, 10 + Controls.Count * 30),
                 Width = 300,
-                BackColor = Color.Red
+                Height = 70,
+                BackColor = Color.LightGreen,
             });
 
         }
