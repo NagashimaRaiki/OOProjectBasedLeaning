@@ -36,6 +36,13 @@ namespace OOProjectBasedLeaning
                 Location = new Point(20, 10)
             };
 
+            Label employeeStatusLabel = new Label
+            {
+                Text = "[出勤中]",
+                AutoSize = true,
+                Location = new Point(115, 38)
+            };
+
             TextBox guestNameTextBox = new TextBox
             {
                 Text = employee.Name,
@@ -44,6 +51,7 @@ namespace OOProjectBasedLeaning
             };
 
             Controls.Add(employeeNameLabel);
+            Controls.Add(employeeStatusLabel);
             Controls.Add(guestNameTextBox);
 
         }
