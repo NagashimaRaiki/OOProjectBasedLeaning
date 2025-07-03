@@ -64,7 +64,13 @@ namespace OOProjectBasedLeaning
             {
 
                 (serializableObject as DragDropPanel).AddDragDropForm(this, PointToClient(new Point(dragEventArgs.X, dragEventArgs.Y)));
-
+                EmployeePanel employeePanel = (EmployeePanel)serializableObject;
+                Employee employee = employeePanel.returnEmp();
+                Employee findEmp = company.FindEmployeeById(employee.Id);
+                if (findEmp != employee) {
+                    company.AddEmployee(employee);
+                }
+                UpdateDisplay();
             }
 
         }

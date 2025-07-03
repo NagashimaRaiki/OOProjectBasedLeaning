@@ -21,6 +21,11 @@ namespace OOProjectBasedLeaning
 
         }
 
+        public Employee returnEmp()
+        {
+            return employee;
+        }
+
         private void InitializeComponent()
         {
 
