@@ -1,13 +1,42 @@
+using System.Text;
+
 namespace OOProjectBasedLeaning
 {
 
     public partial class HomeForm : DragDropForm
     {
-
         public HomeForm()
         {
 
             InitializeComponent();
+
+            //‘Ş‹Î‚ÌLabel‚ğì¬
+            Label ClockOutlabel = new Label 
+            {
+                Location = new Point(480, 20 + Controls.Count * 30),
+                Width = 300,
+                Height = 200,
+                BackColor = Color.LightSalmon,
+                ForeColor = Color.White,
+                Text = "‘Ş‹Î",
+                Font = new Font("Arial", 16, FontStyle.Bold),
+                TextAlign = ContentAlignment.MiddleCenter
+            };
+            //TimeTracker‚ÌLabel‚ğì¬
+            Label timetrackerlabel = new Label
+            {
+                Location = new Point(480, 20),
+                Width = 300,
+                Height = 25,
+                BackColor = Color.Blue,
+                Text = "TimeTracker",
+                Font = new Font("Arial", 16, FontStyle.Bold),
+                TextAlign = ContentAlignment.TopCenter
+            };
+            //Form‚ÉƒRƒ“ƒgƒ[ƒ‹‚ğ’Ç‰Á
+            Controls.Add(ClockOutlabel);
+            Controls.Add(timetrackerlabel);
+            timetrackerlabel.BringToFront();
 
         }
 
