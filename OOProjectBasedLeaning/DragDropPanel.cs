@@ -100,6 +100,15 @@ namespace OOProjectBasedLeaning
 
         }
 
+        public void AddForm(Form form)
+        {
+            _AddForm(form);
+
+            form.Controls.Add(this);
+        }
+
+        protected abstract void _AddForm(Form form);
+
     }
 
     public class NullDragDropPanel : DragDropPanel, NullObject
@@ -138,6 +147,10 @@ namespace OOProjectBasedLeaning
 
         }
 
+        protected override void _AddForm(Form form)
+        {
+            throw new NotImplementedException();
+        }
     }
 
 }
