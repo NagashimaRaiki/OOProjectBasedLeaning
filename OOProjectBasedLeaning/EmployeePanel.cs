@@ -57,14 +57,20 @@ namespace OOProjectBasedLeaning
 
         protected override void _AddForm(Form form)
         {
+            //移動先がCompanyFormだったら
             if (form is CompanyForm)
             {
+                //ステータスラベルを[出勤中]に変更
                 employeeStatusLabel.Text = "[出勤中]";
+                //背景をLightGreenに変更
                 this.BackColor = Color.LightGreen;
             }
+            //移動先がHomeFormだったら
             else if (form is HomeForm)
             {
+                //ステータスラベルを[退勤中]に変更
                 employeeStatusLabel.Text = "[退勤中]";
+                //背景をLightSalmonに変更
                 this.BackColor = Color.LightSalmon;
             }
         }
