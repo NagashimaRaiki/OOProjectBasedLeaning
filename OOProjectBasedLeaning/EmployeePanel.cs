@@ -9,6 +9,12 @@ namespace OOProjectBasedLeaning
 
     public class EmployeePanel : DragDropPanel
     {
+        private Label employeeStatusLabel = new Label()
+        {
+            Text = "[ーーー]",
+            AutoSize = true,
+            Location = new Point(115, 38)
+        };
 
         private Employee employee;
 
@@ -36,13 +42,6 @@ namespace OOProjectBasedLeaning
                 Location = new Point(20, 10)
             };
 
-            Label employeeStatusLabel = new Label
-            {
-                Text = "[ーーー]",
-                AutoSize = true,
-                Location = new Point(115, 38)
-            };
-
             TextBox guestNameTextBox = new TextBox
             {
                 Text = employee.Name,
@@ -55,6 +54,23 @@ namespace OOProjectBasedLeaning
             Controls.Add(guestNameTextBox);
 
         }
+
+        protected override void _AddForm(Form form)
+        {
+            if (form is CompanyForm)
+            {
+                employeeStatusLabel.Text = "[出勤中]";
+                this.BackColor = Color.LightGreen;
+            }
+            else if (form is HomeForm)
+            {
+                employeeStatusLabel.Text = "[退勤中]";
+                this.BackColor = Color.LightSalmon;
+            }
+        }
+
+
+
         protected override void OnPanelMouseDown()
         {
             DoDragDropMove();
