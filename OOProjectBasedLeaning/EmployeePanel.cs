@@ -38,7 +38,7 @@ namespace OOProjectBasedLeaning
 
             Label employeeStatusLabel = new Label
             {
-                Text = "[出勤中]",
+                Text = "[ーーー]",
                 AutoSize = true,
                 Location = new Point(115, 38)
             };

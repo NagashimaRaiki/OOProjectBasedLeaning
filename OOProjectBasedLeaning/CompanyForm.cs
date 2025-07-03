@@ -62,10 +62,12 @@ namespace OOProjectBasedLeaning
 
             if (serializableObject is DragDropPanel)
             {
-
                 (serializableObject as DragDropPanel).AddDragDropForm(this, PointToClient(new Point(dragEventArgs.X, dragEventArgs.Y)));
+                //操作したパネルをemployeePanelに定義
                 EmployeePanel employeePanel = (EmployeePanel)serializableObject;
+                //EmployyePanelからemPloyeeを取得
                 Employee employee = employeePanel.returnEmp();
+                //CompanyAddempの呼び出し
                 CompanyAddEmp(employee);
             }
 
@@ -73,26 +75,32 @@ namespace OOProjectBasedLeaning
 
         private void UpdateDisplay()
         {
-
+            //StringBuilderを作成
             StringBuilder employeeNames = new StringBuilder();
+            //companyからすべてのEmployeeを取り出す
             company.Employees().ForEach(employee =>
             {
-
+                //employeeを追加
                 employeeNames.Append(employee.Name);
+                //改行追加
                 employeeNames.Append("\n");
 
             });
-
+            //ラベルにemployeeNamesを貼り付け
             employeeNamesLabel.Text = employeeNames.ToString();
 
         }
         private void CompanyAddEmp(Employee employee)
         {
+            //Employeeがcompanyに加入していないかの確認
             Employee findEmp = company.FindEmployeeById(employee.Id);
+            //employeeがcompanyに加入していない時
             if (findEmp != employee)
             {
+                //companyにemployeeを加入
                 company.AddEmployee(employee);
             }
+           //UpdateDisplayを呼び出し
             UpdateDisplay();
         }
     }

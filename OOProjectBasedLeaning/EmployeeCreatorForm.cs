@@ -27,7 +27,7 @@ namespace OOProjectBasedLeaning
         {
 
             Controls.Add(new EmployeePanel(CreateEmployee())
-            {
+            {                              
                 Location = new Point(10, 10 + Controls.Count * 30),
                 Width = 300,
                 Height = 70,
