@@ -60,10 +60,12 @@ namespace OOProjectBasedLeaning
             if (form is CompanyForm)
             {
                 employeeStatusLabel.Text = "[出勤中]";
+                this.BackColor = Color.LightGreen;
             }
             else if (form is HomeForm)
             {
                 employeeStatusLabel.Text = "[退勤中]";
+                this.BackColor = Color.LightSalmon;
             }
         }
 
