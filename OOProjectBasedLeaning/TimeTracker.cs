@@ -83,7 +83,7 @@ namespace OOProjectBasedLeaning
 
             }
 
-            timestamp4PunchIn.Add(DateTime.Today, CreateTimestamp(employeeId));
+            timestamp4PunchIn.Add(DateTime.Now, CreateTimestamp(employeeId));
 
         }
 

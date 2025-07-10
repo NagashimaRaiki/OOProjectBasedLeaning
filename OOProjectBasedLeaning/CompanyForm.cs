@@ -69,12 +69,12 @@ namespace OOProjectBasedLeaning
                 Employee employee = employeePanel.returnEmp();
                 //CompanyAddempの呼び出し
                 CompanyAddEmp(employee);
-                if (!company.IsAtWork(employee))
+                if (!company.IsAtWork(employee) & !employee.GetFlg())
                 {
 
-                    company.ClockIn(employee);
+                    employee.ClockIn();
                     employeePanel.AddForm(this);
-                    
+
                 }
                 else
                 {
