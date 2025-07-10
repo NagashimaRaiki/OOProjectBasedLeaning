@@ -12,11 +12,12 @@ namespace OOProjectBasedLeaning
             // è]ã∆àıÇÃçÏê¨
             new EmployeeCreatorForm().Show();
 
-            // â∆
-            new HomeForm().Show();
-
             // âÔé–
-            new CompanyForm().Show();
+            CompanyForm companyForm = new CompanyForm();
+            companyForm.Show();
+
+            // â∆
+            new HomeForm(companyForm).Show();
 
         }
 

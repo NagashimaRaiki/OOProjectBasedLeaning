@@ -14,7 +14,7 @@ namespace OOProjectBasedLeaning
     public partial class CompanyForm : DragDropForm
     {
 
-        private Company company = NullCompany.Instance;
+        internal Company company = NullCompany.Instance;
         private Label employeeNamesLabel;
 
         public CompanyForm()

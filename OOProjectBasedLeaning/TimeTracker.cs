@@ -98,7 +98,7 @@ namespace OOProjectBasedLeaning
 
             }
 
-            timestamp4PunchOut.Add(DateTime.Today, CreateTimestamp(employeeId));
+            timestamp4PunchOut.Add(DateTime.Now, CreateTimestamp(employeeId));
 
         }
 

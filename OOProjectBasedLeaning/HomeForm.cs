@@ -7,10 +7,13 @@ namespace OOProjectBasedLeaning
     {
         private List<Employee> employeelist = new List<Employee>();
         private Label employeeNamesLabel = new Label();
-        public HomeForm()
+        Company company;
+        public HomeForm(CompanyForm companyForm)
         {
 
             InitializeComponent();
+
+            company = companyForm.company;
 
             //退勤のLabelを作成
             Label ClockOutlabel = new Label 
@@ -70,27 +73,58 @@ namespace OOProjectBasedLeaning
                 EmployeePanel employeePanel = (EmployeePanel)serializableObject;
                 //EmployyePanelからemPloyeeを取得
                 Employee employee = employeePanel.returnEmp();
-                ////CompanyAddempの呼び出し
+                //CompanyAddempの呼び出し
                 CompanyAddEmp(employee);
-                employeePanel.AddForm(this);
+                if (!company.IsAtWork(employee) & employee.GetFlg())
+                {
+
+                    employee.ClockOut();
+                    employeePanel.AddForm(this);
+
+                }
+                else
+                {
+                    MessageBox.Show($"{employee.Name}は既に退勤中です。");
+                }
             }
+
+        }
+
+        private void UpdateDisplay()
+        {
+            //StringBuilderを作成
+            StringBuilder employeeNames = new StringBuilder();
+            //companyからすべてのEmployeeを取り出す
+            company.Employees().ForEach(employee =>
+            {
+                //employeeを追加
+                employeeNames.Append(employee.Name);
+                //改行追加
+                employeeNames.Append("\n");
+
+            });
+            //ラベルにemployeeNamesを貼り付け
+            employeeNamesLabel.Text = employeeNames.ToString();
 
         }
         private void CompanyAddEmp(Employee employee)
         {
-           //名前がすでにあるか重複チェック
-           if(employeelist.Any(e => e.Name == employee.Name))
-           {
-                return;
-           }
-           //重複なし
-           employeelist.Add(employee);
-           UpdateEmployeeNamesLabel();
+            //Employeeがcompanyに加入していないかの確認
+            Employee findEmp = company.FindEmployeeById(employee.Id);
+            //employeeがcompanyに加入していない時
+            if (findEmp != employee)
+            {
+                //companyにemployeeを加入
+                company.AddEmployee(employee);
+
+            }
+            //UpdateDisplayを呼び出し
+            UpdateDisplay();
         }
 
-        private void UpdateEmployeeNamesLabel()
+        public Company returnCompany()
         {
-            employeeNamesLabel.Text = string.Join("\n",employeelist.Select(e => e.Name));
+            return company;
         }
 
     }
