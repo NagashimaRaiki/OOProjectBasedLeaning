@@ -89,7 +89,8 @@ namespace OOProjectBasedLeaning
                 //CompanyAddempの呼び出し
                 CompanyAddEmp(employee);
                 EmpClockOut(employee, employeePanel);
-                
+                HomeForm homeForm = Application.OpenForms.OfType<HomeForm>().FirstOrDefault();
+                homeForm.UpdateEmployeeNameLabel();
             }
 
         }
