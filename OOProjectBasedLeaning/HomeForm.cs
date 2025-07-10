@@ -73,7 +73,8 @@ namespace OOProjectBasedLeaning
                 EmployeePanel employeePanel = (EmployeePanel)serializableObject;
                 //EmployyePanelからemPloyeeを取得
                 Employee employee = employeePanel.returnEmp();
-                //CompanyAddempの呼び出し
+                //Addemployeeの呼び出し
+                AddEmployee(employee);
                 if (!company.IsAtWork(employee) & employee.ReturnWorkMode() == "出勤中")
                 {
 
@@ -92,7 +93,19 @@ namespace OOProjectBasedLeaning
             }
 
         }
-
+        private void AddEmployee(Employee employee)
+        {
+            if(!employeelist.Contains(employee))
+            {
+                //重複なし
+                employeelist.Add(employee);
+                UpdateEmployeeNameLabel();
+            }
+        }
+        private void UpdateEmployeeNameLabel()
+        {
+            employeeNamesLabel.Text = string.Join("\n",employeelist.Select(e => e.Name));
+        }
     }
 
 }
