@@ -73,25 +73,30 @@ namespace OOProjectBasedLeaning
                 EmployeePanel employeePanel = (EmployeePanel)serializableObject;
                 //EmployyePanelからemPloyeeを取得
                 Employee employee = employeePanel.returnEmp();
-                //Addemployeeの呼び出し
-                AddEmployee(employee);
-                if (!company.IsAtWork(employee) & employee.ReturnWorkMode() == "出勤中")
-                {
-
-                    employee.ClockOut();
-                    employeePanel.AddForm(this);
-
-                }
-                else if(employee.ReturnWorkMode() == "---")
-                {
-                    MessageBox.Show($"{employee.Name}はまだ会社に登録されていません。");
-                }
-                else
-                {
-                    MessageBox.Show($"{employee.Name}は既に退勤中です。");
-                }
+                
+                EmpClockOut(employee,employeePanel);
             }
 
+        }
+        private void EmpClockOut(Employee employee,EmployeePanel employeePanel)
+        {
+            if (!company.IsAtWork(employee) & employee.ReturnWorkMode() == "出勤中")
+            {
+
+                employee.ClockOut();
+                employeePanel.AddForm(this);
+                //Addemployeeの呼び出し
+                AddEmployee(employee);
+
+            }
+            else if (employee.ReturnWorkMode() == "---")
+            {
+                MessageBox.Show($"{employee.Name}はまだ会社に登録されていません。");
+            }
+            else
+            {
+                MessageBox.Show($"{employee.Name}は既に退勤中です。");
+            }
         }
         private void AddEmployee(Employee employee)
         {
