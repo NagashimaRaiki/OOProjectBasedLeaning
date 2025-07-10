@@ -88,19 +88,24 @@ namespace OOProjectBasedLeaning
                 Employee employee = employeePanel.returnEmp();
                 //CompanyAddempの呼び出し
                 CompanyAddEmp(employee);
-                if (!company.IsAtWork(employee) & employee.ReturnWorkMode() != "出勤中")
-                {
-
-                    employee.ClockIn();
-                    employeePanel.AddForm(this);
-
-                }
-                else
-                {
-                    MessageBox.Show($"{employee.Name}は既に出勤中です。");
-                }
+                EmpClockOut(employee, employeePanel);
+                
             }
 
+        }
+        private void EmpClockOut(Employee employee, EmployeePanel employeePanel)
+        {
+            if (!company.IsAtWork(employee) & employee.ReturnWorkMode() != "出勤中")
+            {
+
+                employee.ClockIn();
+                employeePanel.AddForm(this);
+
+            }
+            else
+            {
+                MessageBox.Show($"{employee.Name}は既に出勤中です。");
+            }
         }
 
         private void UpdateDisplay()
