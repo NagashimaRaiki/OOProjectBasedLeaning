@@ -85,8 +85,8 @@ namespace OOProjectBasedLeaning
 
                 employee.ClockOut();
                 employeePanel.AddForm(this);
-                //Addemployee‚ÌŒÄ‚Ño‚µ
-                AddEmployee(employee);
+                company.AddEmployee(employee);
+                UpdateEmployeeNameLabel();
 
             }
             else if (employee.ReturnWorkMode() == "---")
@@ -98,18 +98,16 @@ namespace OOProjectBasedLeaning
                 MessageBox.Show($"{employee.Name}‚ÍŠù‚É‘Þ‹Î’†‚Å‚·B");
             }
         }
-        private void AddEmployee(Employee employee)
+        internal void UpdateEmployeeNameLabel()
         {
-            if(!employeelist.Contains(employee))
+            try
             {
-                //d•¡‚È‚µ
-                employeelist.Add(employee);
-                UpdateEmployeeNameLabel();
+                var clockOutEmployees = company.Employees()
+                    .Where(e => !company.IsAtWork(e) && e.ReturnWorkMode() == "‘Þ‹Î’†")
+                    .Select(e => e.Name);
+                employeeNamesLabel.Text = string.Join("\n", clockOutEmployees);
             }
-        }
-        private void UpdateEmployeeNameLabel()
-        {
-            employeeNamesLabel.Text = string.Join("\n",employeelist.Select(e => e.Name));
+            catch { }
         }
     }
 

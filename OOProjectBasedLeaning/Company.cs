@@ -117,8 +117,10 @@ namespace OOProjectBasedLeaning
 
         public Company AddEmployee(Employee employee)
         {
-
-            employees.Add(employee.Id, employee);
+            if (!employees.ContainsKey(employee.Id))
+            {
+                employees.Add(employee.Id, employee);
+            }
 
             return this;
 

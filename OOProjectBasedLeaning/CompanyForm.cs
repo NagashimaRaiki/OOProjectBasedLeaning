@@ -16,7 +16,6 @@ namespace OOProjectBasedLeaning
 
         internal Company company = NullCompany.Instance;
         private Label employeeNamesLabel;
-
         public CompanyForm()
         {
 
@@ -82,6 +81,7 @@ namespace OOProjectBasedLeaning
             if (serializableObject is DragDropPanel)
             {
                 (serializableObject as DragDropPanel).AddDragDropForm(this, PointToClient(new Point(dragEventArgs.X, dragEventArgs.Y)));
+                
                 //操作したパネルをemployeePanelに定義
                 EmployeePanel employeePanel = (EmployeePanel)serializableObject;
                 //EmployyePanelからemPloyeeを取得
@@ -99,6 +99,8 @@ namespace OOProjectBasedLeaning
                 {
                     MessageBox.Show($"{employee.Name}は既に出勤中です。");
                 }
+                HomeForm homeForm = Application.OpenForms.OfType<HomeForm>().FirstOrDefault();
+                homeForm.UpdateEmployeeNameLabel();
             }
 
         }
