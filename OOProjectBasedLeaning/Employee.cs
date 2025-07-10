@@ -27,7 +27,7 @@ namespace OOProjectBasedLeaning
 
         bool IsAtWork();
 
-        bool CheckWorkMode();
+        string ReturnWorkMode();
     }
 
     public class EmployeeModel : ModelEntity, Employee
@@ -134,16 +134,9 @@ namespace OOProjectBasedLeaning
         }
 
         //フラグを取得
-        public bool CheckWorkMode()
+        public string ReturnWorkMode()
         {
-            if(WorkMode == "出勤中")
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return WorkMode;
         }
     }
 
@@ -235,9 +228,9 @@ namespace OOProjectBasedLeaning
 
         }
 
-        public bool CheckWorkMode()
+        public string ReturnWorkMode()
         {
-            return false;
+            return "";
         }
 
     }

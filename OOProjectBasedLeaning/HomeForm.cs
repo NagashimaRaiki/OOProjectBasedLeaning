@@ -74,13 +74,16 @@ namespace OOProjectBasedLeaning
                 //EmployyePanelからemPloyeeを取得
                 Employee employee = employeePanel.returnEmp();
                 //CompanyAddempの呼び出し
-                CompanyAddEmp(employee);
-                if (!company.IsAtWork(employee) & employee.CheckWorkMode())
+                if (!company.IsAtWork(employee) & employee.ReturnWorkMode() == "出勤中")
                 {
 
                     employee.ClockOut();
                     employeePanel.AddForm(this);
 
+                }
+                else if(employee.ReturnWorkMode() == "---")
+                {
+                    MessageBox.Show($"{employee.Name}はまだ会社に登録されていません。");
                 }
                 else
                 {
@@ -88,43 +91,6 @@ namespace OOProjectBasedLeaning
                 }
             }
 
-        }
-
-        private void UpdateDisplay()
-        {
-            //StringBuilderを作成
-            StringBuilder employeeNames = new StringBuilder();
-            //companyからすべてのEmployeeを取り出す
-            company.Employees().ForEach(employee =>
-            {
-                //employeeを追加
-                employeeNames.Append(employee.Name);
-                //改行追加
-                employeeNames.Append("\n");
-
-            });
-            //ラベルにemployeeNamesを貼り付け
-            employeeNamesLabel.Text = employeeNames.ToString();
-
-        }
-        private void CompanyAddEmp(Employee employee)
-        {
-            //Employeeがcompanyに加入していないかの確認
-            Employee findEmp = company.FindEmployeeById(employee.Id);
-            //employeeがcompanyに加入していない時
-            if (findEmp != employee)
-            {
-                //companyにemployeeを加入
-                company.AddEmployee(employee);
-
-            }
-            //UpdateDisplayを呼び出し
-            UpdateDisplay();
-        }
-
-        public Company returnCompany()
-        {
-            return company;
         }
 
     }
