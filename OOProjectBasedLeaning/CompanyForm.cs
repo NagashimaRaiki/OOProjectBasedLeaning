@@ -27,13 +27,29 @@ namespace OOProjectBasedLeaning
             //TimeTrackerの作成
             TimeTracker tt = new TimeTrackerModel(company);
             //ControlsにTimeTrackerPanelの追加
-            Controls.Add(new TimeTrackerPanel(tt)
+            //出勤のLabelを作成
+            Label ClockOutlabel = new Label
             {
-                Location = new Point(480,20 + Controls.Count * 30),
+                Location = new Point(480, 20 + Controls.Count * 30),
                 Width = 300,
                 Height = 200,
+                BackColor = Color.SkyBlue,
+                ForeColor = Color.White,
+                Text = "出勤",
+                Font = new Font("Arial", 16, FontStyle.Bold),
+                TextAlign = ContentAlignment.MiddleCenter
+            };
+            //TimeTrackerのLabelを作成
+            Label timetrackerlabel = new Label
+            {
+                Location = new Point(480, 20),
+                Width = 300,
+                Height = 25,
                 BackColor = Color.Blue,
-            });
+                Text = "TimeTracker",
+                Font = new Font("Arial", 16, FontStyle.Bold),
+                TextAlign = ContentAlignment.TopCenter
+            };
 
             //Labelの作成
             employeeNamesLabel = new Label
@@ -45,7 +61,10 @@ namespace OOProjectBasedLeaning
 
             };
             //ControlsにLabelを追加
+            Controls.Add(ClockOutlabel);
+            Controls.Add(timetrackerlabel);
             Controls.Add(employeeNamesLabel);
+            timetrackerlabel.BringToFront();
 
             UpdateDisplay();
         }
