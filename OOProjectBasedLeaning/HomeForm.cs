@@ -5,8 +5,8 @@ namespace OOProjectBasedLeaning
 
     public partial class HomeForm : DragDropForm
     {
-        private Company company = NullCompany.Instance;
-        private Label employeeNamesLabel;
+        private List<Employee> employeelist = new List<Employee>();
+        private Label employeeNamesLabel = new Label();
         public HomeForm()
         {
 
@@ -69,26 +69,28 @@ namespace OOProjectBasedLeaning
                 //操作したパネルをemployeePanelに定義
                 EmployeePanel employeePanel = (EmployeePanel)serializableObject;
                 //EmployyePanelからemPloyeeを取得
-                //Employee employee = employeePanel.returnEmp();
+                Employee employee = employeePanel.returnEmp();
                 ////CompanyAddempの呼び出し
-                //CompanyAddEmp(employee);
+                CompanyAddEmp(employee);
                 employeePanel.AddForm(this);
             }
 
         }
         private void CompanyAddEmp(Employee employee)
         {
-            //Employeeがcompanyに加入していないかの確認
-            Employee findEmp = company.FindEmployeeById(employee.Id);
-            //employeeがcompanyに加入していない時
-            if (findEmp != employee)
-            {
-                //companyにemployeeを加入
-                company.AddEmployee(employee);
+           //名前がすでにあるか重複チェック
+           if(employeelist.Any(e => e.Name == employee.Name))
+           {
+                return;
+           }
+           //重複なし
+           employeelist.Add(employee);
+           UpdateEmployeeNamesLabel();
+        }
 
-            }
-            //UpdateDisplayを呼び出し
-            //UpdateDisplay();
+        private void UpdateEmployeeNamesLabel()
+        {
+            employeeNamesLabel.Text = string.Join("\n",employeelist.Select(e => e.Name));
         }
 
     }
