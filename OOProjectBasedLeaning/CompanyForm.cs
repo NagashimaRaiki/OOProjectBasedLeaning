@@ -113,6 +113,7 @@ namespace OOProjectBasedLeaning
         {
             //StringBuilderを作成
             StringBuilder employeeNames = new StringBuilder();
+            employeeNames.Append("[社員一覧]\n");
             //companyからすべてのEmployeeを取り出す
             company.Employees().ForEach(employee =>
             {

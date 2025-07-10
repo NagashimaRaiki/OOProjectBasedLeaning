@@ -41,7 +41,7 @@ namespace OOProjectBasedLeaning
             //Label‚Ìì¬
             employeeNamesLabel = new Label
             {
-
+                Text = "[‘Þ‹Î’†‚ÌŽÐˆõ]",
                 Location = new Point(20, 20),
                 AutoSize = true,
                 Font = new Font("Arial", 12, FontStyle.Regular),
@@ -105,7 +105,7 @@ namespace OOProjectBasedLeaning
                 var clockOutEmployees = company.Employees()
                     .Where(e => !company.IsAtWork(e) && e.ReturnWorkMode() == "‘Þ‹Î’†")
                     .Select(e => e.Name);
-                employeeNamesLabel.Text = string.Join("\n", clockOutEmployees);
+                employeeNamesLabel.Text = "[‘Þ‹Î’†‚ÌŽÐˆõ]\n" + string.Join("\n", clockOutEmployees);
             }
             catch { }
         }
