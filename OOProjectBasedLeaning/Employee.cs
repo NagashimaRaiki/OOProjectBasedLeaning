@@ -27,7 +27,7 @@ namespace OOProjectBasedLeaning
 
         bool IsAtWork();
 
-        bool GetFlg();
+        bool CheckWorkMode();
     }
 
     public class EmployeeModel : ModelEntity, Employee
@@ -37,7 +37,7 @@ namespace OOProjectBasedLeaning
 
         private Company company = NullCompany.Instance;
 
-        public bool flg = false;
+        public string WorkMode = "---";
 
         public EmployeeModel() : this(Employee.NEW)
         {
@@ -114,14 +114,14 @@ namespace OOProjectBasedLeaning
 
         public void ClockIn()
         {
-            flg = true;
+            WorkMode = "出勤中";
             company.ClockIn(this);
 
         }
 
         public void ClockOut()
         {
-            flg = false;
+            WorkMode = "退勤中";
             company.ClockOut(this);
 
         }
@@ -134,9 +134,16 @@ namespace OOProjectBasedLeaning
         }
 
         //フラグを取得
-        public bool GetFlg()
+        public bool CheckWorkMode()
         {
-            return flg;
+            if(WorkMode == "出勤中")
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 
@@ -228,7 +235,7 @@ namespace OOProjectBasedLeaning
 
         }
 
-        public bool GetFlg()
+        public bool CheckWorkMode()
         {
             return false;
         }

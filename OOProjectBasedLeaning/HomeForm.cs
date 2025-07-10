@@ -75,7 +75,7 @@ namespace OOProjectBasedLeaning
                 Employee employee = employeePanel.returnEmp();
                 //CompanyAddempÇÃåƒÇ—èoÇµ
                 CompanyAddEmp(employee);
-                if (!company.IsAtWork(employee) & employee.GetFlg())
+                if (!company.IsAtWork(employee) & employee.CheckWorkMode())
                 {
 
                     employee.ClockOut();
